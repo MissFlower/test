@@ -1,0 +1,50 @@
+<!--
+ * @Description: 
+ * @Version: 0.1.0
+ * @Author: AiDongYang
+ * @Date: 2021-02-07 16:36:35
+ * @LastEditors: AiDongYang
+ * @LastEditTime: 2021-02-07 16:51:49
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bind实现</title>
+</head>
+<body>
+  <script>
+    var names = '王二'
+    const obj = {
+      names: '张三',
+      myName(a, b, c) {
+        console.log(a + b + c + this.names)
+      }
+    } 
+    const obj1 = {
+      names: '李四'
+    }
+    Function.prototype.myBind = function(context) {
+      // 对context进行深拷贝 防止污染
+      const ctx = JSON.parse(JSON.stringify(context)) || window
+
+      // 将当前被调用的方法定义在ctx.func 上 为了能以对象调用的方式绑定this
+      ctx.func = this
+
+      // 获取实参
+      const args = Array.from(arguments).slice(1)
+
+      // bind返回一个绑定函数 等待调用
+      return function() {
+        // 这里需要注意的一点是 需要对bind函数的实参和返回绑定函数的实参进行参数合并 调用时传入
+        const allArgs = args.concat(Array.from(arguments))
+        // 以对象的调用形式调用func 此时this指向ctx 也就是传入的需要绑定的this指向
+        return allArgs.length > 0 ? ctx.func(...allArgs) : ctx.func()
+      }
+
+    }
+    obj.myName.myBind(null, '我的')('名字', '叫')
+  </script>
+</body>
+</html>

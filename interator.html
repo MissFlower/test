@@ -1,0 +1,54 @@
+<!--
+ * @Description: 
+ * @Version: 0.1.0
+ * @Author: AiDongYang
+ * @Date: 2021-02-02 10:12:57
+ * @LastEditors: AiDongYang
+ * @LastEditTime: 2021-04-07 14:06:35
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <script>
+      const str = 'hi'
+      // const i= str[Symbol.iterator]()
+      // console.log(i.next())
+      // console.log(i.next())
+      // console.log(i.next())
+      // 必须构造 String 对象以避免字符串字面量 auto-boxing 默认调用自己的迭代方法
+      var someString = new String('hi')
+      someString[Symbol.iterator] = function () {
+        return {
+          next: function () {
+            if (this._first) {
+              this._first = false
+              return {
+                value: 'bye',
+                done: false
+              }
+            } else {
+              return {
+                done: true
+              }
+            }
+          },
+          _first: true
+        }
+      }
+      const i1 = someString[Symbol.iterator]()
+      console.log(i1.next())
+      console.log(i1.next())
+
+      console.log([...someString])
+      ;(function (a, b, c, d, e) {
+        console.log(arguments)
+      })(1, 2, 3)
+    </script>
+  </body>
+</html>

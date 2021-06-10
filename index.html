@@ -1,0 +1,313 @@
+<!--
+ * @Description: 
+ * @Version: 0.1.0
+ * @Autor: AiDongYang
+ * @Date: 2020-08-14 16:27:10
+ * @LastEditors: AiDongYang
+ * @LastEditTime: 2021-05-13 09:39:51
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      background-color: var(--color);
+
+      --color: red;
+    }
+
+    div {
+      width: 100px;
+      height: 100px;
+      border: 10px groove white;
+
+      /* // dotted;(点线) dashed;(虚线) solid; double;(双线) groove;(槽线) ridge;(脊状) inset;(凹陷) outset; */
+    }
+
+    .flex__container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      width: 100%;
+      border: none;
+    }
+
+    .flex__item {
+      flex: 0 1 calc((100vw - 48px) / 4);
+      border: 1px solid #fff;
+    }
+  </style>
+  <body>
+    <div></div>
+    <div class="flex__container">
+      <div class="flex__item"></div>
+      <div class="flex__item"></div>
+      <div class="flex__item"></div>
+      <div class="flex__item"></div>
+      <div class="flex__item"></div>
+      <div class="flex__item"></div>
+    </div>
+
+    <input type="radio" id="apple" name="fruit" value="1" />
+    <label for="apple">苹果</label>
+
+    <input type="radio" id="banana" name="fruit" value="2" />
+    <label for="banana">香蕉</label>
+
+    <input type="radio" id="origin" name="fruit" value="3" />
+    <label for="origin">橙子</label>
+    <script>
+      // console.log('script start');
+
+      // async function async1() {
+      //     await async2();
+      //     console.log('async1 end');
+      // };
+
+      // async function async2() {
+      //     await console.log(1)
+      //     console.log('async2 end');
+      // };
+
+      // async1()
+
+      // setTimeout(() => {
+      //     console.log('setTimeout')
+      // }, 0)
+
+      // new Promise((resolve, reject) => {
+      //     console.log('promise start');
+      //     resolve()
+      // })
+      // .then(() => console.log('promise end'))
+
+      // console.log('script end')
+    </script>
+    <script>
+      const html = document.documentElement
+      let str = []
+      for (const key in html) {
+        str.push(key)
+      }
+      // console.log(str.join(','))
+    </script>
+    <script>
+      function add() {
+        // 1 把所有参数转换成数组
+        let args = Array.prototype.slice.call(arguments)
+        // 2 再次调用add函数，传递合并当前与之前的参数
+        let fn = function () {
+          let arg_fn = Array.prototype.slice.call(arguments)
+          return add.apply(null, args.concat(arg_fn))
+        }
+        // 3 最后默认调用，返回合并的值
+        fn.toString = function () {
+          return args.reduce(function (a, b) {
+            return a + b
+          })
+        }
+        return fn
+      }
+      console.log(add(1)(2)(3))
+      function test() {
+        function f1() {
+          console.log('我是f1')
+        }
+        f1.toString = () => {
+          console.log('重写toString')
+        }
+        return f1
+      }
+      console.log(test())
+      // 当执行 test() 之后会返回一个 function fn(typeof test()=== function),
+      // 但是此时会自动调用函数的 toString(),所以返回了 字符串’toString’,如果没有重写 toString()
+      // 则会返回函数的字符串形式(返回结果: ƒ fn(){console.log(‘我是fn’)})
+    </script>
+    <script>
+      function Person() {
+        this.hobbit = 'play baskball'
+      }
+      Person.prototype.play = function () {
+        console.log(123)
+      }
+      const p1 = new Person()
+      console.log(p1)
+
+      function Child() {
+        this.name = '艾东阳'
+      }
+
+      ;(function () {
+        // 创建一个没有实例方法的类
+        var Super = function () {}
+        Super.prototype = Person.prototype
+        //将实例作为子类的原型
+        Child.prototype = new Super()
+        Child.prototype.constructor = Child
+      })()
+      // Child.prototype = new Person()
+      // Child.prototype.constructor = Child
+
+      // 圣杯模式 模块化开发 (防止变量全局污染)
+      // var inherit = (function() {
+      //   var Super = function() {}
+      //   return function(Target, Origin) {
+      //     Super.prototype = Origin.prototype
+      //     Target.prototype = new Super()
+      //     Target.prototype.constructor = Target
+      //     Target.prototype.uber = Origin
+      //   }
+      // })()
+
+      Child.prototype.watch = function () {
+        console.log('看电影')
+      }
+      const c1 = new Child()
+      c1.watch()
+      console.log(c1)
+    </script>
+    <script>
+      const obj = {
+        a: {
+          b: 1
+        },
+        c: 2
+      }
+      const obj1 = {}
+      Object.keys(obj).forEach((key) => {
+        Object.defineProperty(obj1, key, {
+          get() {
+            return obj[key]
+          },
+          set(newValue) {
+            obj[key] = newValue
+          }
+        })
+      })
+      console.log(obj1.c)
+    </script>
+    <script>
+      const str1 = '1000000000000000'
+      const reg = /(?=(\B)(\d{3})+$)/g
+      console.log(str1.replace(reg, ','))
+
+      const array = [
+        0,
+        1,
+        '0',
+        '1',
+        '大漠',
+        'w3cplus.com',
+        undefined,
+        true,
+        false,
+        null,
+        'undefined',
+        'null',
+        NaN,
+        'NaN',
+        '1' + 0
+      ]
+      const newArr = array.filter(Boolean)
+      console.log(newArr)
+
+      const len1 = ({} + {}).length
+      const len2 = ([] + []).length
+      const len3 = function () {}.length
+
+      function test(a, b, c) {
+        console.log(arguments.length)
+      }
+      test(1, 2, 3, 4)
+      console.log(test.length)
+
+      const a = {
+        _default: 0,
+        toString() {
+          return ++this._default
+        }
+      }
+      if (a == 1 && a == 2 && a == 3) {
+        console.log('you are win!!!')
+      }
+
+      let _default = 0
+      Object.defineProperty(window, 'b', {
+        get() {
+          return ++_default
+        }
+      })
+
+      if (b === 1 && b === 2 && b === 3) {
+        console.log('you are verywell!!!')
+      }
+
+      function fb(n) {
+        if (n <= 2) {
+          return 1
+        }
+        return fb(n - 2) + fb(n - 1)
+      }
+      console.log(fb(5))
+    </script>
+    <script>
+      console.log('----------------------')
+      // q = 1
+      // function test(e) {
+      //   function e() {}
+      //   arguments[0] = 2
+      //   console.log(e)
+      //   if (q) {
+      //     var b = 2
+      //   }
+      //   var c
+      //   q = 4
+      //   var q
+      //   console.log(b)
+      //   f = 5
+      //   console.log(c)
+      //   console.log(q)
+      // }
+      // var q
+      // test(1)
+      // 同一行不进行赋值
+      console.log((window.a0 && 1) || (window.a0 = true))
+      console.log(window.a2 && (window.a2 = 1))
+    </script>
+
+    <script>
+      console.log('--------------------')
+      // 函数也是对象 直接添加属性为静态属性
+      // let name = function(params) {
+      //   console.log(1)
+      // }
+      // name.len = 10
+      // console.dir(name)
+      function Car() {
+        this.brand = 'Benz'
+      }
+      Car.prototype = {
+        brand: 'Mazda',
+        intro: function () {
+          console.log('我是' + this.brand + '车')
+        }
+      }
+
+      var car = new Car()
+      car.intro()
+      car.__proto__.intro()
+      Car.prototype.intro()
+
+      const obj2 = Object.create(null)
+      obj2.toString = function () {
+        return '自定义toString'
+      }
+      document.write(obj2)
+    </script>
+  </body>
+</html>

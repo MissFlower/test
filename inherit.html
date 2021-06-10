@@ -1,0 +1,123 @@
+<!--
+ * @Description: 
+ * @Version: 0.1.0
+ * @Author: AiDongYang
+ * @Date: 2021-01-11 17:08:34
+ * @LastEditors: AiDongYang
+ * @LastEditTime: 2021-01-20 16:31:23
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    console.log(app)
+    app.textContent = '1234'
+    app.innerHTML = '<h2>我是h2</h2>'
+    app.innerText = 'abc'
+  </script>
+  <script type="text/javascript">
+    const inherit = (function() {
+      const Super = function() {}
+      return function(Target, Origin) {
+        Super.prototype = Origin.prototype
+        Target.prototype = new Super()
+        Target.prototype.constructor = Target
+        Target.prototype.uber = Origin
+      }
+    })()
+  </script>
+  <script type="text/javascript">
+  // 程序
+    const initProgrammer = (function() {
+      const Programmer = function() {}
+
+      Programmer.prototype = {
+        name: '程序员',
+        work: '编写应用程序',
+        tool: '计算机',
+        duration: 10,
+        say: function() {
+          console.log(`我是一名${this.myName}${this.name},我的工作是使用${this.tool, this.work},我每天工作${this.duration}小时,我的专业技能是${this.lang}`)
+        }
+      }
+
+      const FrontEnd = function() {}
+      const BackEnd = function() {}
+
+      inherit(FrontEnd, Programmer)
+      inherit(BackEnd, Programmer)
+
+      // 原型上添加方法或者属性要在继承之后  不然集成的时候原型会被覆盖
+      FrontEnd.prototype.lang = ['HTML', 'CSS', 'JavaScript']
+      FrontEnd.prototype.myName = '前端'
+      BackEnd.prototype.lang = ['NodeJs', 'Java', 'SQL']
+      BackEnd.prototype.myName = '后端'
+
+      // return {
+      //   FrontEnd,
+      //   BackEnd
+      // }
+
+      // 挂载外window上 在外面直接new 插件化 
+      window.FrontEnd = FrontEnd
+      window.BackEnd = BackEnd
+    })()
+
+    // 外部使用
+
+    // const frontEnd = new initProgrammer.FrontEnd()
+    // const backEnd = new initProgrammer.BackEnd()
+
+    const frontEnd = new FrontEnd()
+    const backEnd = new BackEnd()
+
+    frontEnd.say()
+    backEnd.say()
+
+  </script>
+  <script>
+    function myName(...args) {
+      console.log(args) // 数组
+      console.log(arguments) // 类数组
+    }
+    myName(1, 2,3 ,4)
+
+    const arr = []
+    const type = Object.prototype.toString.call(arr).slice(8, -1)
+    console.log(type) 
+
+    // function test() {
+    //   console.log(1)
+    //   arguments.callee()
+    // }
+    // test()
+
+    // function test1() {
+    //   console.log(test1.caller) // null
+    //   test2()
+    // }
+    // function test2() {
+    //   console.log(test2.caller) // test1函数引用
+    // }
+    // test1()
+
+    // 实参形参映射 一一对应 但 当形参有默认值不一致
+    function b(x, y, a = 10) {
+      // arguments[2] = 39
+      // a = 20
+      // console.log(a)
+      console.log(arguments[2])
+    }
+    b(1, 2, 3)
+
+    console.log(window.bbb  && (window.bbb = -1))
+  </script>
+</body>
+</html>

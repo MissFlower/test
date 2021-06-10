@@ -1,0 +1,44 @@
+<!--
+ * @Description: 
+ * @Version: 0.1.0
+ * @Author: AiDongYang
+ * @Date: 2021-02-07 11:13:08
+ * @LastEditors: AiDongYang
+ * @LastEditTime: 2021-04-08 11:25:36
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>call实现</title>
+  </head>
+  <body>
+    <script>
+      var names = '王二'
+      const obj = {
+        names: '张三',
+        myName(a, b, c) {
+          console.log(a + b + c + this.names)
+        }
+      }
+      const obj1 = {
+        names: '李四'
+      }
+      Function.prototype.myCall = function (context = window, ...args) {
+        if (typeof this !== 'function') {
+          new Error('请使用调用函数')
+        }
+        const ctx = context || window
+
+        const func = this
+        const fn = Symbol('fn')
+        ctx[fn] = func
+        const res = ctx[fn](...args)
+        delete ctx[fn]
+        return res
+      }
+      obj.myName.myCall(obj, '我的', '名字', '叫')
+    </script>
+  </body>
+</html>

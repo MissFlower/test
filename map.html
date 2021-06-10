@@ -1,0 +1,35 @@
+<!--
+ * @Description: 
+ * @Version: 0.1.0
+ * @Author: AiDongYang
+ * @Date: 2021-02-02 09:30:47
+ * @LastEditors: AiDongYang
+ * @LastEditTime: 2021-02-02 09:53:40
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    Array.prototype.map = function(callback) {
+      const Len = this.length
+      const tmp = []
+      for (let i = 0; i < Len; i++) {
+        const item = this[i]
+        const index = i
+        tmp.push(callback(item, index))
+      }
+      return tmp
+    }
+    const arr = [1, 2, 3, 4]
+    const res = arr.map((item, index) => {
+      return item * 2
+    })
+    console.log(res)
+  </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!--
+ * @Description: 
+ * @Version: 0.1.0
+ * @Author: AiDongYang
+ * @Date: 2021-03-30 16:11:00
+ * @LastEditors: AiDongYang
+ * @LastEditTime: 2021-04-01 13:51:48
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script src="./promise.js"></script>
+  <!-- <script src="./promiseClass.js"></script> -->
+  <script>
+    const p = new MyPromise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(1)
+        console.log('relove后执行~~~')
+      }, 100)
+    })
+
+    p.then(res => {
+      return new MyPromise((res) => {
+        res(123)
+        console.log('hahh')
+      })
+    }, error => {
+      console.log('reject1'+ error)
+      return MyPromise.reject(2)
+    })
+
+    .then(res => {
+      console.log('resolve2'+ res)
+    }, error => {
+      console.log('reject2'+ error)
+    })
+  </script>
+</body>
+</html>
